@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Tabs</h1>
+
+<div id="tabs">
+  <% @tabs.each do |tab| %>
+    <%= render tab %>
+    <p>
+      <%= link_to "Show this tab", tab %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New tab", new_tab_path %>

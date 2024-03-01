@@ -1,0 +1,22 @@
+<div id="<%= dom_id tab %>">
+</div>
+
+<h3><%= @tab.name %></h3>
+
+<% @tab.collection_log_entries.each do |collection_log_entry| %>
+  <h4><%= collection_log_entry.name %></h4>
+
+  <% collection_log_entry.kill_counts.each do |kill_count| %>
+    <p><%= kill_count.name %>: <%= kill_count.amount %></p>
+  <% end %>
+
+  <% collection_log_entry.collection_log_items.each do |item| %>
+    <p><%= item.name %>: <%= item.quantity %> (Obtained: <%= item.obtained %>, Obtained At: <%= item.obtained_at %>)</p>
+    <% @game_item = GameItem.where(name: item.name)&.first %>
+    <% unless @game_item.nil? %>
+    <img src="data:image/png;base64, <%=@game_item.icon%>" alt="<%=@game_item.name%>>" />
+    <%= link_to "Fetch Drop Rate", fetch_drop_rate_game_item_path(GameItem.where(name: item.name)&.first), method: :post %>
+    <% end %>
+  <% end %>
+
+<% end %>

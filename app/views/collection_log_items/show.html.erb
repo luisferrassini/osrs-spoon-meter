@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @collection_log_item %>
+
+<div>
+  <%= link_to "Edit this collection log item", edit_collection_log_item_path(@collection_log_item) %> |
+  <%= link_to "Back to collection log items", collection_log_items_path %>
+
+  <%= button_to "Destroy this collection log item", @collection_log_item, method: :delete %>
+</div>

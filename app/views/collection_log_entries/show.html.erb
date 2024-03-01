@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- <div>
+  <%= link_to "Edit this collection log entry", edit_collection_log_entry_path(@collection_log_entry) %> |
+  <%= link_to "Back to collection log entries", collection_log_entries_path %>
+
+  <%= button_to "Destroy this collection log entry", @collection_log_entry, method: :delete %>
+</div> -->
+
+<%= link_to "Go back to #{@collection_log_entry.tab.name}", player_collection_log_tab_path(@collection_log_entry.tab.collection_log.player, @collection_log_entry.tab.collection_log, @collection_log_entry.tab) %>
+
+<h3><%= @collection_log_entry.name %></h3>
+
+<% @collection_log_entry.kill_counts.each do |kill_count| %>
+  <p><b><%= kill_count.name %>: <%= kill_count.amount %></b></p>
+<% end %>
+
+<% @collection_log_entry.collection_log_items.each do |item| %>
+  <p>
+    <% game_item = GameItem.where(name: item.name)&.first %>
+    <% unless game_item.nil? %>
+    <img src="data:image/png;base64, <%=game_item.icon%>" alt="<%=game_item.name%>>" />
+    <% end %>
+    <%= item.name %>: <%= item.quantity %> (Obtained: <%= item.obtained %>, Obtained At: <%= item.obtained_at %>)
+    <% unless game_item.nil? %>
+  <%= link_to "Fetch Drop Rate", fetch_drop_rate_game_item_path(GameItem.where(name: item.name)&.first), method: :post %>
+  <% end %>
+  </p>
+<% end %>
+
+

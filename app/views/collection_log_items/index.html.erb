@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Collection log items</h1>
+
+<div id="collection_log_items">
+  <% @collection_log_items.each do |collection_log_item| %>
+    <%= render collection_log_item %>
+    <p>
+      <%= link_to "Show this collection log item", collection_log_item %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New collection log item", new_collection_log_item_path %>

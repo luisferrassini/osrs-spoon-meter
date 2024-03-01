@@ -21,6 +21,14 @@ class CollectionLog < ApplicationRecord
     log
   end
 
+  def tab1_data
+    self.tabs.first
+  end
+
+  def tab2_data
+    self.tabs.second
+  end
+
   private
 
   def create_tabs(tabs_data)

@@ -5,28 +5,7 @@
   <p>Last Updated On <%= @player.collection_log.updated_at %> (Unique ID: <%=@player.collection_log.id%>)</p>
   <%= link_to "Fetch Collection Log", fetch_collection_log_player_path(@player), method: :post %>
 
-  <%= HTTParty.get('http://127.0.0.1:3000/game_items/12294/fetch_drop_rate') %>
-  <% @player.collection_log.tabs.each do |tab| %>
-    <h3><%= tab.name %></h3>
-
-    <% tab.collection_log_entries.each do |collection_log_entry| %>
-      <h4><%= collection_log_entry.name %></h4>
-
-      <% collection_log_entry.kill_counts.each do |kill_count| %>
-        <p><%= kill_count.name %>: <%= kill_count.amount %></p>
-      <% end %>
-
-      <% collection_log_entry.collection_log_items.each do |item| %>
-        <p><%= item.name %>: <%= item.quantity %> (Obtained: <%= item.obtained %>, Obtained At: <%= item.obtained_at %>)</p>
-        <% @game_item = GameItem.where(name: item.name)&.first %>
-        <% unless @game_item.nil? %>
-        <img src="data:image/png;base64, <%=@game_item.icon%>" alt="<%=@game_item.name%>>" />
-        <%= link_to "Fetch Drop Rate", fetch_drop_rate_game_item_path(GameItem.where(name: item.name)&.first), method: :post %>
-        <% end %>
-      <% end %>
-
-    <% end %>
-  <% end %>
+  <%= link_to "Show Collection Log", player_collection_log_path(@player, @player.collection_log) %>
 <% else %>
   <p>Collection log not available for <%= @player.name %>.</p>
   <%= link_to "Fetch Collection Log", fetch_collection_log_player_path(@player), method: :post %>

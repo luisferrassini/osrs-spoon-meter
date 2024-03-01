@@ -1,0 +1,17 @@
+<%= form_with(model: collection_log) do |form| %>
+  <% if collection_log.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(collection_log.errors.count, "error") %> prohibited this collection_log from being saved:</h2>
+
+      <ul>
+        <% collection_log.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

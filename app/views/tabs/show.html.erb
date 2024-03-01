@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<%= link_to "Go back to #{@tab.collection_log.player.name} Collection Log", player_collection_log_path(@tab.collection_log.player, @tab.collection_log) %>
+
+<% @tab.collection_log_entries.each do |entry| %>
+  <h3><%= entry.name %></h3>
+
+  <%= link_to "Show #{entry.name}", player_collection_log_tab_collection_log_entry_path(@tab.collection_log.player, @tab.collection_log, @tab, entry) %>
+<% end %>
+
+<!-- <div>
+  <%= link_to "Edit this tab", edit_tab_path(@tab) %> |
+  <%= link_to "Back to tabs", tabs_path %>
+
+  <%= button_to "Destroy this tab", @tab, method: :delete %>
+</div> -->

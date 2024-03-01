@@ -1,0 +1,2 @@
+module CollectionLogsHelper
+end

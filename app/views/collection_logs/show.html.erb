@@ -1,0 +1,17 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- <div>
+  <%= link_to "Edit this collection log", edit_collection_log_path(@collection_log) %> |
+  <%= link_to "Back to collection logs", collection_logs_path %>
+
+  <%= button_to "Destroy this collection log", @collection_log, method: :delete %>
+</div> -->
+
+<%= link_to "Go back to #{@collection_log.player.name}", player_path(@collection_log.player, @collection_log) %>
+
+<% @collection_log.tabs.each do |tab| %>
+  <h3><%= tab.name %></h3>
+
+  <%= link_to "Show #{tab.name}", player_collection_log_tab_path(@collection_log.player, @collection_log, tab) %>
+<% end %>
+
