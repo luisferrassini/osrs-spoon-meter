@@ -1,0 +1,30 @@
+<h1>Player: <%= @player.name %></h1>
+
+<% if @player.collection_log %>
+  <h2>Collection Log</h2> 
+  <p>Last Updated On <%= @player.collection_log.updated_at %> (Unique ID: <%=@player.collection_log.id%>)</p>
+  <%= link_to "Fetch Collection Log", fetch_collection_log_player_path(@player), method: :post %>
+
+  <% @player.collection_log.tabs.each do |tab| %>
+    <h3><%= tab.name %></h3>
+
+    <% tab.collection_log_entries.each do |collection_log_entry| %>
+      <h4><%= collection_log_entry.name %></h4>
+
+      <% collection_log_entry.kill_counts.each do |kill_count| %>
+        <p><%= kill_count.name %>: <%= kill_count.amount %></p>
+      <% end %>
+
+      <% collection_log_entry.collection_log_items.each do |item| %>
+        <p><%= item.name %>: <%= item.quantity %> (Obtained: <%= item.obtained %>, Obtained At: <%= item.obtained_at %>)</p>
+      <% end %>
+
+    <% end %>
+  <% end %>
+<% else %>
+  <p>Collection log not available for <%= @player.name %>.</p>
+  <%= link_to "Fetch Collection Log", fetch_collection_log_player_path(@player), method: :post %>
+<% end %>
+
+<%= link_to 'Edit', edit_player_path(@player) %> |
+<%= link_to 'Back', players_path %>
