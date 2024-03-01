@@ -1,5 +1,5 @@
 class CollectionLogEntriesController < ApplicationController
-  before_action :set_collection_log_entry, only: %i[ show edit update destroy ]
+  before_action :set_collection_log_entry, only: %i[show edit update destroy]
 
   # GET /collection_log_entries or /collection_log_entries.json
   def index
@@ -7,8 +7,7 @@ class CollectionLogEntriesController < ApplicationController
   end
 
   # GET /collection_log_entries/1 or /collection_log_entries/1.json
-  def show
-  end
+  def show; end
 
   # GET /collection_log_entries/new
   def new
@@ -16,8 +15,7 @@ class CollectionLogEntriesController < ApplicationController
   end
 
   # GET /collection_log_entries/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /collection_log_entries or /collection_log_entries.json
   def create
@@ -25,7 +23,10 @@ class CollectionLogEntriesController < ApplicationController
 
     respond_to do |format|
       if @collection_log_entry.save
-        format.html { redirect_to collection_log_entry_url(@collection_log_entry), notice: "Collection log entry was successfully created." }
+        format.html do
+          redirect_to collection_log_entry_url(@collection_log_entry),
+                      notice: 'Collection log entry was successfully created.'
+        end
         format.json { render :show, status: :created, location: @collection_log_entry }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +39,10 @@ class CollectionLogEntriesController < ApplicationController
   def update
     respond_to do |format|
       if @collection_log_entry.update(collection_log_entry_params)
-        format.html { redirect_to collection_log_entry_url(@collection_log_entry), notice: "Collection log entry was successfully updated." }
+        format.html do
+          redirect_to collection_log_entry_url(@collection_log_entry),
+                      notice: 'Collection log entry was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @collection_log_entry }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +56,20 @@ class CollectionLogEntriesController < ApplicationController
     @collection_log_entry.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_log_entries_url, notice: "Collection log entry was successfully destroyed." }
+      format.html { redirect_to collection_log_entries_url, notice: 'Collection log entry was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_collection_log_entry
-      @collection_log_entry = CollectionLogEntry.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def collection_log_entry_params
-      params.fetch(:collection_log_entry, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_collection_log_entry
+    @collection_log_entry = CollectionLogEntry.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def collection_log_entry_params
+    params.fetch(:collection_log_entry, {})
+  end
 end

@@ -22,11 +22,11 @@ class CollectionLog < ApplicationRecord
   end
 
   def tab1_data
-    self.tabs.first
+    tabs.first
   end
 
   def tab2_data
-    self.tabs.second
+    tabs.second
   end
 
   private

@@ -7,12 +7,11 @@ Rails.application.routes.draw do
   resources :players do
     # Custom route to fetch collection log
     get 'fetch_collection_log', on: :member
-    
+
     resources :collection_logs do
       resources :tabs do
         resources :collection_log_entries do
           resources :collection_log_items do
-        
           end
         end
       end

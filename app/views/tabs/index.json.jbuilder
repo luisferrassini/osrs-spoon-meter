@@ -1,1 +1,1 @@
-json.array! @tabs, partial: "tabs/tab", as: :tab
+json.array! @tabs, partial: 'tabs/tab', as: :tab

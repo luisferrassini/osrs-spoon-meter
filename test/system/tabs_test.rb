@@ -1,39 +1,39 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class TabsTest < ApplicationSystemTestCase
   setup do
     @tab = tabs(:one)
   end
 
-  test "visiting the index" do
+  test 'visiting the index' do
     visit tabs_url
-    assert_selector "h1", text: "Tabs"
+    assert_selector 'h1', text: 'Tabs'
   end
 
-  test "should create tab" do
+  test 'should create tab' do
     visit tabs_url
-    click_on "New tab"
+    click_on 'New tab'
 
-    click_on "Create Tab"
+    click_on 'Create Tab'
 
-    assert_text "Tab was successfully created"
-    click_on "Back"
+    assert_text 'Tab was successfully created'
+    click_on 'Back'
   end
 
-  test "should update Tab" do
+  test 'should update Tab' do
     visit tab_url(@tab)
-    click_on "Edit this tab", match: :first
+    click_on 'Edit this tab', match: :first
 
-    click_on "Update Tab"
+    click_on 'Update Tab'
 
-    assert_text "Tab was successfully updated"
-    click_on "Back"
+    assert_text 'Tab was successfully updated'
+    click_on 'Back'
   end
 
-  test "should destroy Tab" do
+  test 'should destroy Tab' do
     visit tab_url(@tab)
-    click_on "Destroy this tab", match: :first
+    click_on 'Destroy this tab', match: :first
 
-    assert_text "Tab was successfully destroyed"
+    assert_text 'Tab was successfully destroyed'
   end
 end

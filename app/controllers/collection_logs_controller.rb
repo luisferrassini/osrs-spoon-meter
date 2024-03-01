@@ -1,5 +1,5 @@
 class CollectionLogsController < ApplicationController
-  before_action :set_collection_log, only: %i[ show edit update destroy ]
+  before_action :set_collection_log, only: %i[show edit update destroy]
 
   # GET /collection_logs or /collection_logs.json
   def index
@@ -7,8 +7,7 @@ class CollectionLogsController < ApplicationController
   end
 
   # GET /collection_logs/1 or /collection_logs/1.json
-  def show
-  end
+  def show; end
 
   # GET /collection_logs/new
   def new
@@ -16,8 +15,7 @@ class CollectionLogsController < ApplicationController
   end
 
   # GET /collection_logs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /collection_logs or /collection_logs.json
   def create
@@ -25,7 +23,9 @@ class CollectionLogsController < ApplicationController
 
     respond_to do |format|
       if @collection_log.save
-        format.html { redirect_to collection_log_url(@collection_log), notice: "Collection log was successfully created." }
+        format.html do
+          redirect_to collection_log_url(@collection_log), notice: 'Collection log was successfully created.'
+        end
         format.json { render :show, status: :created, location: @collection_log }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +38,9 @@ class CollectionLogsController < ApplicationController
   def update
     respond_to do |format|
       if @collection_log.update(collection_log_params)
-        format.html { redirect_to collection_log_url(@collection_log), notice: "Collection log was successfully updated." }
+        format.html do
+          redirect_to collection_log_url(@collection_log), notice: 'Collection log was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @collection_log }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -52,19 +54,20 @@ class CollectionLogsController < ApplicationController
     @collection_log.destroy!
 
     respond_to do |format|
-      format.html { redirect_to collection_logs_url, notice: "Collection log was successfully destroyed." }
+      format.html { redirect_to collection_logs_url, notice: 'Collection log was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_collection_log
-      @collection_log = CollectionLog.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def collection_log_params
-      params.fetch(:collection_log, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_collection_log
+    @collection_log = CollectionLog.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def collection_log_params
+    params.fetch(:collection_log, {})
+  end
 end
