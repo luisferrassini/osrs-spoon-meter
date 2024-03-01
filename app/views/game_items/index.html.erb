@@ -1,0 +1,28 @@
+<h1>Game Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Last Updated</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @game_items.each do |game_item| %>
+      <tr>
+        <td><%= game_item.name %></td>
+        <td><%= game_item.last_updated %></td>
+        <td>
+          <%= link_to 'Show', game_item %>
+          <%= link_to 'Edit', edit_game_item_path(game_item) %>
+          <%= link_to 'Destroy', game_item, method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Game Item', new_game_item_path %>

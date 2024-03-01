@@ -1,0 +1,172 @@
+<%= form_with(model: game_item, local: true) do |form| %>
+  <% if game_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(game_item.errors.count, "error") %> prohibited this game item from being saved:</h2>
+
+      <ul>
+      <% game_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :last_updated %>
+    <%= form.datetime_select :last_updated %>
+  </div>
+
+  <div class="field">
+    <%= form.label :incomplete %>
+    <%= form.check_box :incomplete %>
+  </div>
+
+  <div class="field">
+    <%= form.label :members %>
+    <%= form.check_box :members %>
+  </div>
+
+  <div class="field">
+    <%= form.label :tradeable %>
+    <%= form.check_box :tradeable %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :tradeable_on_ge %>
+    <%= form.check_box :tradeable_on_ge %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :stackable %>
+    <%= form.check_box :stackable %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :stacked %>
+    <%= form.number_field :stacked %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :noted %>
+    <%= form.check_box :noted %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :noteable %>
+    <%= form.check_box :noteable %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :linked_id_item %>
+    <%= form.number_field :linked_id_item %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :linked_id_noted %>
+    <%= form.number_field :linked_id_noted %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :linked_id_placeholder %>
+    <%= form.number_field :linked_id_placeholder %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :placeholder %>
+    <%= form.check_box :placeholder %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :equipable %>
+    <%= form.check_box :equipable %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :equipable_by_player %>
+    <%= form.check_box :equipable_by_player %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :equipable_weapon %>
+    <%= form.check_box :equipable_weapon %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :cost %>
+    <%= form.number_field :cost %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :lowalch %>
+    <%= form.number_field :lowalch %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :highalch %>
+    <%= form.number_field :highalch %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :weight %>
+    <%= form.number_field :weight %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :buy_limit %>
+    <%= form.number_field :buy_limit %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :quest_item %>
+    <%= form.check_box :quest_item %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :release_date %>
+    <%= form.datetime_select :release_date %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :duplicate %>
+    <%= form.check_box :duplicate %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :examine %>
+    <%= form.text_area :examine %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :icon %>
+    <%= form.text_area :icon %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :wiki_name %>
+    <%= form.text_field :wiki_name %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :wiki_url %>
+    <%= form.text_field :wiki_url %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :equipment %>
+    <%= form.text_area :equipment %>
+  </div>
+  
+  <div class="field">
+    <%= form.label :weapon %>
+    <%= form.text_area :weapon %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

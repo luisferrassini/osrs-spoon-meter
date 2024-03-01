@@ -1,0 +1,12 @@
+<p>
+  <strong>Name:</strong>
+  <%= @game_item.name %>
+</p>
+
+<p>
+  <strong>Last Updated:</strong>
+  <%= @game_item.last_updated %>
+</p>
+
+<%= link_to 'Edit', edit_game_item_path(@game_item) %> |
+<%= link_to 'Back', game_items_path %>

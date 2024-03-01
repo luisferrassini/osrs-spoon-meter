@@ -5,5 +5,9 @@ Rails.application.routes.draw do
     get 'fetch_collection_log', on: :member
   end
 
+  resources :game_items do
+    get 'fetch_drop_rate', on: :member
+  end
+
   # Define other routes as needed
 end
