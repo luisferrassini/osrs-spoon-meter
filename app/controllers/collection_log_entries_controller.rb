@@ -1,4 +1,5 @@
 class CollectionLogEntriesController < ApplicationController
+  include WikiDryCalculatorHelper
   before_action :set_collection_log_entry, only: %i[show edit update destroy]
 
   # GET /collection_log_entries or /collection_log_entries.json
@@ -7,7 +8,18 @@ class CollectionLogEntriesController < ApplicationController
   end
 
   # GET /collection_log_entries/1 or /collection_log_entries/1.json
-  def show; end
+  def show
+    @collection_log_entry_with_drop_rates = @collection_log_entry.collection_log_items.map do |collection_log_item|
+      drop_rates = fetch_drop_rate(collection_log_item.name)
+      { collection_log_item:, drop_rate: drop_rates.each do |x|
+                                           x[:Dryness] = dry_calculator(
+                                             x[:Rarity2],
+                                             collection_log_item.collection_log_entry.kill_counts&.first&.amount,
+                                             x[:Quantity].to_i == 0 ? 1 : (collection_log_item.quantity.to_i / x[:Quantity].to_i)
+                                           )[0]
+                                         end }
+    end
+  end
 
   # GET /collection_log_entries/new
   def new
@@ -71,5 +83,21 @@ class CollectionLogEntriesController < ApplicationController
   # Only allow a list of trusted parameters through.
   def collection_log_entry_params
     params.fetch(:collection_log_entry, {})
+  end
+
+  def fetch_drop_rate(item_name)
+    drop_rate_fetcher = DropRateFetcher.new(DropRateWikiStrategy.new)
+    fetch_drop_rate_for_game_item(drop_rate_fetcher, item_name)
+  end
+
+  def fetch_drop_rate_for_game_item(drop_rate_fetcher, item_name)
+    # return unless game_item.name || game_item.item_id
+    return unless item_name
+
+    # if game_item.name
+    #   drop_rate_fetcher.fetch_drop_rate(name: game_item.name)
+    # else
+    drop_rate_fetcher.fetch_drop_rate(name: item_name)
+    # end
   end
 end

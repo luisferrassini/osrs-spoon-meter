@@ -4,7 +4,7 @@ class CollectionLogItemsController < ApplicationController
   # GET /collection_log_items or /collection_log_items.json
   def index
     @collection_log_items = CollectionLogItem.all
-    @drop_rates = @collection_log_items.map {}
+    @drop_rates = @collection_log_items.map { |item| fetch_drop_rate(item.game_id) }
   end
 
   # GET /collection_log_items/1 or /collection_log_items/1.json
@@ -72,12 +72,5 @@ class CollectionLogItemsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def collection_log_item_params
     params.fetch(:collection_log_item, {})
-  end
-
-  def fetch_drop_rate(game_id)
-    @game_item = GameItem.find_by(game_id:)
-
-    drop_rate_fetcher = DropRateFetcher.new(DropRateWikiStrategy.new)
-    fetch_drop_rate_for_game_item(drop_rate_fetcher, @game_item)
   end
 end

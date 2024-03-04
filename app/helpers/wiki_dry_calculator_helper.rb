@@ -1,4 +1,4 @@
-module ApplicationHelper
+module WikiDryCalculatorHelper
   def expr(x)
     x = x.to_s.tr(',', '.')
     begin
@@ -8,11 +8,11 @@ module ApplicationHelper
       nil
     end
   end
-  
+
   def choose(n, k)
     return 0 if k < 0 || k > n
     return 1 if k == 0 || k == n
-  
+
     k = [k, n - k].min # symmetry
     c = 1
     (0...k).each do |i|
@@ -20,7 +20,7 @@ module ApplicationHelper
     end
     c
   end
-  
+
   FLAVOUR_TEXTS = [
     [-1, 1, "You are some sort of sentient water being you're so not-dry. How'd you even do this?"],
     [1, 10, "You're a higher % water than a watermelon.",
@@ -44,37 +44,38 @@ module ApplicationHelper
     [99.9, 99.99,
      "Wow that's so rare! Seems like it's bugged. We tweeted @JagexAsh for you, we're sure he'll get to the bottom of it in the next 24 hours."],
     [99.99, 1000, 'Did you forget to talk to [[Oziach]]?']
-  ]
-  
+  ].freeze
+
   def flavour_text(x, obtained)
     FLAVOUR_TEXTS.each do |v|
       next unless x >= v[0] && x <= v[1]
-      return v[2] + ' ' + v[3] if obtained.zero? && v[3]
-  
+      return "#{v[2]} #{v[3]}" if obtained.zero? && v[3]
+
       return v[2]
     end
     ''
   end
-  
-  def calc(chance_txt, kc, obtained)
+
+  def dry_calculator(chance_txt, kc, obtained)
     chance = expr(chance_txt)
     return 'Looks like there was an error with your input chance, try typing it in again' unless chance
-  
+
     return 'You put your chance at over 1 you absolute madman' if chance > 1
     return 'You put your chance at 0 or negative, how you gonna get that drop?' if chance <= 0
-  
+
     kc = kc.to_i
     return "You ain't killed anything you crazy fool" unless kc.positive?
-  
+
     obtained = obtained.to_i
     return 'More items dropped than things killed? how?' if kc < obtained
-  
+
     luck = 0.0
     (0..obtained).each do |i|
       luck += choose(kc, i) * (chance**i) * ((1 - chance)**(kc - i))
     end
-  
+
     [
+      (1.0 - luck) * 100,
       format(
         "You killed %s monsters for an item with a %s (%.6f%%) drop chance. You had a:\n* %.8f%% chance of getting %s drops or fewer\n* %.8f%% chance of getting more than %s drops. %s", kc, chance_txt, 100 * chance, 100 * luck, obtained, 100 * (1.0 - luck), obtained, flavour_text(
                                                                                                                                                                                                                                                                               (1.0 - luck) * 100, obtained

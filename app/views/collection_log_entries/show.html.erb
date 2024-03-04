@@ -9,23 +9,62 @@
 
 <%= link_to "Go back to #{@collection_log_entry.tab.name}", player_collection_log_tab_path(@collection_log_entry.tab.collection_log.player, @collection_log_entry.tab.collection_log, @collection_log_entry.tab) %>
 
-<h3><%= @collection_log_entry.name %></h3>
+<h2><%= @collection_log_entry.name %></h2>
 
 <% @collection_log_entry.kill_counts.each do |kill_count| %>
   <p><b><%= kill_count.name %>: <%= kill_count.amount %></b></p>
 <% end %>
 
-<% @collection_log_entry.collection_log_items.each do |item| %>
-  <p>
-    <% game_item = GameItem.where(name: item.name)&.first %>
-    <% unless game_item.nil? %>
-    <img src="data:image/png;base64, <%=game_item.icon%>" alt="<%=game_item.name%>>" />
-    <% end %>
-    <%= item.name %>: <%= item.quantity %> (Obtained: <%= item.obtained %>, Obtained At: <%= item.obtained_at %>)
-    <% unless game_item.nil? %>
-  <%= link_to "Fetch Drop Rate", fetch_drop_rate_game_item_path(GameItem.where(name: item.name)&.first), method: :post %>
-  <% end %>
-  </p>
+<div class="grid w-full grid-cols-4 gap-4 p-6">
+
+<% @collection_log_entry_with_drop_rates.each do |item| %>
+  <!-- <div class="border-4 rounded border-stone-700 text-black p-4 <%= item[:collection_log_item].obtained ? 'bg-green-400' : 'bg-red-400' %> card"> -->
+  <div class="card <%= item[:collection_log_item].obtained ? 'bg-green-400' : 'bg-red-400' %>">
+    <% game_item = GameItem.where(name: item[:collection_log_item].name)&.first %>
+    <div class="flex items-center">
+      <div class="rounded bg-slate-500 border-black w-12 h-12 my-4 mx-2 rounded-full flex items-center">
+        <% unless game_item.nil? %>
+          <img src="data:image/png;base64, <%=game_item.icon%>" alt="<%=game_item.name%>>" class="border-black m-auto" />
+        <% else %>
+          <img src="https://placehold.co/36x32/png" alt="<%=item[:collection_log_item].name%>" class="border-black m-auto" />
+        <% end %>
+      </div>
+      <h1 class="w-1/2 h-12 my-4">
+        <b><%= item[:collection_log_item].name %></b>: <%= item[:collection_log_item].quantity %>
+      </h1>
+    </div>
+    <div>
+      <!-- <p>Obtained: <%= item[:collection_log_item].obtained %>, Obtained At: <%= item[:collection_log_item].obtained_at %></p> -->
+      <% unless item[:drop_rate].empty? %>
+      <b class="mx-4 mb-2 mt-4">Sources</b>
+      <table class="m-4 border-black border-2">
+        <thead>
+          <% [:Name, :Rarity, :Dryness].each do |key| %>
+            <th class="text-align-center border-black border-2 bg-slate-100"><%=key%></th>
+          <% end %>
+        </thead>
+        <tbody>
+          <% item[:drop_rate].each do |src| %>
+            <tr class="<%=@collection_log_entry.kill_counts.first.name.downcase.include?(src[:Name].downcase) ? 'bg-slate-300' : 'bg-white'%>">
+              <% [:Name, :Rarity, :Dryness].each do |key| %>
+                <td class="border-black border-2 p-1">
+                <% if key == :Dryness %>
+                  <meter min="0" max="100" value="<%=src[key].to_i%>">Luck</meter> <%=src[key].round(2)%>%
+                <% else %>
+                  <%=src[key]%>
+                <% end %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% end %>
+    </div>
+    <!-- <% unless game_item.nil? %>
+      <%= link_to "Fetch Drop Rate", fetch_drop_rate_game_item_path(game_item), method: :post %>
+    <% end %> -->
+    </div>
 <% end %>
 
-
+  </div>

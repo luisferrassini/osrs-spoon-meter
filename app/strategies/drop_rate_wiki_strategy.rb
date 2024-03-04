@@ -13,28 +13,35 @@ class DropRateWikiStrategy < DropRateSourceStrategy
     sources = []
     parsed_html = Nokogiri::HTML(html)
 
-    parsed_html.at('.item-drops').search('tr').each do |tr|
-      tr.search('span[data-drop-oneover]').each do |x|
-        name = tr.search('td')[0].text || tr.search('td')[1].text # Sometimes it is the second element on the table
-        src = { 'Name': name,
-                'Rarity': sanitize_value(x['data-drop-oneover']),
-                'UnsanitizedText': x.text,
-                'WikiElement': {
-                  'data-drop-percent': x['data-drop-percent'],
-                  'title': x['title'],
-                  'data-drop-permil': x['data-drop-permil'],
-                  'data-drop-fraction': x['data-drop-fraction'],
-                  'data-drop-permyriad': x['data-drop-permyriad'],
-                  'data-drop-oneover': x['data-drop-oneover']
-                } }
-        sources << src
+    parsed_html.at('.mw-page-title-main').text
+
+    if parsed_html.at('.item-drops').nil?
+      return [{
+        Name: 'Guaranteed', Rarity2: '1.0/1', Rarity: 'Always'
+      }]
+    end
+
+    parsed_html.at('.item-drops').search('tr').drop(1).each do |tr|
+      span_elements = tr.search('span[data-drop-oneover]')
+      name = tr.search('td')[0].text || tr.search('td')[1].text # Sometimes it is the second element on the table
+
+      if span_elements.empty?
+        last_value_on_row = tr.search('td').last
+        sources << { Name: name,
+                     Rarity2: sanitize_value(last_value_on_row.text),
+                     Rarity: last_value_on_row.text,
+                     Quantity: tr.search('td')[-2].text }
+      else
+        span_elements.each do |span_element|
+          sources << { Name: name,
+                       Rarity2: sanitize_value(span_element['data-drop-oneover']),
+                       Rarity: span_element.text,
+                       Quantity: tr.search('td')[-2].text }
+        end
       end
     end
 
     sources
-  rescue StandardError => e
-    puts "Nokogiri parsing failed: #{e.message}"
-    []
   end
 
   def sanitize_value(value)
